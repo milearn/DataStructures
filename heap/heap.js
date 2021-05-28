@@ -22,15 +22,18 @@ class MinHeap {
       }
     }
   }
+  getMinimum() {
+    return this.heap[0];
+  }
   remove() {
     const heap = this.heap;
     if (!this.heap.length) {
-      return null;
+        return null;
     }
+    let largest = this.heap[0];
     if (this.heap.length < 2) {
       this.heap.shift();
     } else {
-      //   let largest = this.heap[0];
       this.heap[0] = this.heap[this.heap.length - 1];
       this.heap.pop();
 
@@ -59,6 +62,8 @@ class MinHeap {
         rightChildIndex = leftChildIndex + 1;
       }
     }
+    return largest;
+
   }
 }
 

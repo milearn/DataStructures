@@ -1,6 +1,15 @@
 class MinHeap {
   heap = [];
-
+  // comparator function is allowed in case elements in heap are objects.
+  // comparator function returns a number which helps in sorting(re-heapify) the array.
+  constructor(comparator) {
+    this.comparator =
+      typeof comparator === "function"
+        ? comparator
+        : function (val) {
+            return val;
+          };
+  }
   push(val) {
     if (typeof val === "undefined" || val === null) {
       return;
@@ -16,7 +25,11 @@ class MinHeap {
     let childInd = this.heap.length - 1;
     let parentInd = getParentInd(childInd);
     // start from bottom and re-heapify till min heap condition of parent > child is satisfied
-    while (parentInd >= 0 && this.heap[parentInd] > this.heap[childInd]) {
+    while (
+      parentInd >= 0 &&
+      this.comparator(this.heap[parentInd]) >
+        this.comparator(this.heap[childInd])
+    ) {
       [this.heap[parentInd], this.heap[childInd]] = [
         this.heap[childInd],
         this.heap[parentInd],
@@ -47,13 +60,16 @@ class MinHeap {
       let rightChildIndex = leftChildIndex + 1;
       while (
         (leftChildIndex < this.heap.length &&
-          this.heap[current] > this.heap[leftChildIndex]) ||
+          this.comparator(this.heap[current]) >
+            this.comparator(this.heap[leftChildIndex])) ||
         (rightChildIndex < this.heap.length &&
-          this.heap[current] > this.heap[rightChildIndex])
+          this.comparator(this.heap[current]) >
+            this.comparator(this.heap[rightChildIndex]))
       ) {
         const smallestChildIndex =
           rightChildIndex >= this.heap.length ||
-          this.heap[leftChildIndex] < this.heap[rightChildIndex]
+          this.comparator(this.heap[leftChildIndex]) <
+            this.comparator(this.heap[rightChildIndex])
             ? leftChildIndex
             : rightChildIndex;
         [this.heap[smallestChildIndex], this.heap[current]] = [

@@ -33,7 +33,7 @@ class MinHeap {
       return null;
     }
     let smallest = this.heap[0];
-    if (this.heap.length < 2) {
+    if (this.heap.length <= 2) {
       this.heap.shift();
     } else {
       // remove root element. replace top of tree with bottom element.
@@ -46,12 +46,13 @@ class MinHeap {
       let leftChildIndex = 2 * current + 1;
       let rightChildIndex = leftChildIndex + 1;
       while (
-        leftChildIndex < this.heap.length &&
-        rightChildIndex < this.heap.length &&
-        (this.heap[current] > this.heap[leftChildIndex] ||
+        (leftChildIndex < this.heap.length &&
+          this.heap[current] > this.heap[leftChildIndex]) ||
+        (rightChildIndex < this.heap.length &&
           this.heap[current] > this.heap[rightChildIndex])
       ) {
         const smallestChildIndex =
+          rightChildIndex >= this.heap.length ||
           this.heap[leftChildIndex] < this.heap[rightChildIndex]
             ? leftChildIndex
             : rightChildIndex;
@@ -78,6 +79,8 @@ class MinHeap {
   minHeap.push(7);
   minHeap.push(8);
   minHeap.push(3);
+  console.log(minHeap.heap);
+  minHeap.pop();
   console.log(minHeap.heap);
   minHeap.pop();
   console.log(minHeap.heap);
